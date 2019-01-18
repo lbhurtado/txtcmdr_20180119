@@ -2,9 +2,9 @@
 
 namespace App\Missive\Domain\Services;
 
+use App\Airtime\Actions\AvailSMS;
 use App\App\Domain\ServiceInterface;
-use App\App\Actions\AvailSMS;
-use App\Missive\Domain\Models\Airtime;
+use App\Airtime\Domain\Models\Airtime;
 use App\App\Domain\Payloads\{GenericPayload, ValidationPayload};
 use App\Missive\Domain\Repositories\{SMSRepository, ContactRepository};
 
@@ -24,7 +24,6 @@ class CreateSMSService implements ServiceInterface
 	{
 		if (($validator = $this->validate($data))->fails()) {
 			return new ValidationPayload($validator->getMessageBag());
-			// return $validator->getMessageBag();
 		}
 
 		$sms = tap($this->smss->create(array_only($data, ['from', 'to', 'message'])), function ($sms) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\App\Actions;
+namespace App\Airtime\Actions;
 
 class AvailSMS extends ActionAbstract
 {

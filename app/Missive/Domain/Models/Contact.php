@@ -3,7 +3,7 @@
 namespace App\Missive\Domain\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Missive\Domain\Traits\SpendsAirtime;
+use App\Airtime\Domain\Traits\SpendsAirtime;
 
 class Contact extends Model
 {

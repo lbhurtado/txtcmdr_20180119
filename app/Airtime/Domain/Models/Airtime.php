@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Missive\Domain\Models;
+namespace App\Airtime\Domain\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

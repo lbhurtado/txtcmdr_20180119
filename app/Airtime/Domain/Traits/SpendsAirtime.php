@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Missive\Domain\Traits;
+namespace App\Airtime\Domain\Traits;
 
-use App\Missive\Domain\Models\Airtime;
-use App\Missive\Actions\AvailSMS;
-use App\App\Actions\ActionAbstract;
 use Exception;
-use App\App\Formatters\CreditsFormatter;
+use App\Airtime\Domain\Models\Airtime;
+use App\Airtime\Actions\ActionAbstract;
+use App\Airtime\Domain\Formatters\CreditsFormatter;
 
 trait SpendsAirtime
 {

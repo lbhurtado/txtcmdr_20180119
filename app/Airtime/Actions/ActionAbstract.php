@@ -1,8 +1,8 @@
 <?php
 
-namespace App\App\Actions;
+namespace App\Airtime\Actions;
 
-use App\Missive\Domain\Models\Airtime;
+use App\Airtime\Domain\Models\Airtime;
 
 abstract class ActionAbstract
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\App\Formatters;
+namespace App\Airtime\Domain\Formatters;
 
 class CreditsFormatter
 {
