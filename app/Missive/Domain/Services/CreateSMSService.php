@@ -3,6 +3,8 @@
 namespace App\Missive\Domain\Services;
 
 use App\App\Domain\ServiceInterface;
+use App\App\Actions\AvailSMS;
+use App\Missive\Domain\Models\Airtime;
 use App\App\Domain\Payloads\{GenericPayload, ValidationPayload};
 use App\Missive\Domain\Repositories\{SMSRepository, ContactRepository};
 
@@ -26,7 +28,9 @@ class CreateSMSService implements ServiceInterface
 		}
 
 		$sms = tap($this->smss->create(array_only($data, ['from', 'to', 'message'])), function ($sms) {
-					$this->contacts->create(['mobile' => $sms->from]);
+
+					$contact = $this->contacts->create(['mobile' => $sms->from]);
+					$contact->spendAirtime(new AvailSMS());
 				})
 		->load(['origin'])
 		;
