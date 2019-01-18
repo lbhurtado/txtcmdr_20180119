@@ -3,12 +3,20 @@
 namespace App\Missive\Responders;
 
 use App\Missive\Domain\Models\SMS;
-use App\App\Responders\ResponderInterface;
+use App\Missive\Domain\Resources\SMSResource;
+use App\App\Domain\Payloads\ValidationPayload;
+use App\App\Responders\{Responder, ResponderInterface};
 
-class CreateSMSResponder implements ResponderInterface
+class CreateSMSResponder extends Responder implements ResponderInterface
 {
-	public function respond($data)
+	public function respond()
 	{
-		return response()->json($data, 200);
+		if ($this->response instanceof ValidationPayload) {
+			return response()->json($this->response->getData(), $this->response->getStatus());
+		}
+
+		return (new SMSResource($this->response->getData()))
+			->response()
+			->setStatusCode($this->response->getStatus());
 	}
 }

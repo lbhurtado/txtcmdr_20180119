@@ -3,6 +3,7 @@
 namespace App\Missive\Domain\Services;
 
 use App\App\Domain\ServiceInterface;
+use App\App\Domain\Payloads\{GenericPayload, ValidationPayload};
 use App\Missive\Domain\Repositories\{SMSRepository, ContactRepository};
 
 class CreateSMSService implements ServiceInterface
@@ -19,9 +20,25 @@ class CreateSMSService implements ServiceInterface
 
 	public function handle($data = [])
 	{
-		return tap($this->smss->create(array_only($data, ['from', 'to', 'message'])), function ($sms) {
-			$this->contacts->create(['mobile' => $sms->from]);	
-			$this->contacts->create(['mobile' => $sms->to]);			
-		})->load(['origin', 'destination']);
+		if (($validator = $this->validate($data))->fails()) {
+			return new ValidationPayload($validator->getMessageBag());
+			// return $validator->getMessageBag();
+		}
+
+		$sms = tap($this->smss->create(array_only($data, ['from', 'to', 'message'])), function ($sms) {
+					$this->contacts->create(['mobile' => $sms->from]);
+				})
+		->load(['origin'])
+		;
+
+		return new GenericPayload($sms);
+	}
+
+	protected function validate($data)
+	{
+		return validator($data, [
+			'from' => 'required',
+			'to' => 'required'
+		]);
 	}
 }

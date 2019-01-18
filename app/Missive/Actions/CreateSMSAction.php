@@ -22,8 +22,6 @@ class CreateSMSAction
 	{
 		$sms = $this->service->handle($request->only('from', 'to', 'message'));
 
-		return $this->responder->respond(
-			$sms
-		);
+		return $this->responder->withResponse($sms)->respond();
 	}
 }

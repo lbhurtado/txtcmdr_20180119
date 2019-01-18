@@ -16,9 +16,4 @@ class SMS extends Model
     {
     	return $this->hasOne(Contact::class, 'mobile', 'from');
     }
-
-    public function destination()
-    {
-    	return $this->hasOne(Contact::class, 'mobile', 'to');
-    }
 }
