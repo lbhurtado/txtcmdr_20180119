@@ -15,4 +15,9 @@ class ContactRepository
 			])
 		);
 	}
+
+	public function withMobile($mobile)
+	{
+		return Contact::whereMobile($mobile)->firstOrFail();
+	}
 }

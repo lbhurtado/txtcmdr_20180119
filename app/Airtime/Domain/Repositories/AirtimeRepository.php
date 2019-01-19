@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Missive\Domain\Repositories;
+namespace App\Airtime\Domain\Repositories;
 
 use App\Missive\Domain\Models\Airtime;
 

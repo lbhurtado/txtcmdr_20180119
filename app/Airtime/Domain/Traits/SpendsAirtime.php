@@ -11,11 +11,20 @@ trait SpendsAirtime
 {
 	public function spendAirtime(ActionAbstract $action)
 	{
-		if (! $model = $action->getModel()) {
+		if (! $airtime = $action->getAirtime()) {
 			throw new Exception("Airtime model for key [{$action->key()}] not found.");
 		}
 
-		$this->airtimes()->attach($model);
+		return tap($this->airtimes(), function ($relation) use ($airtime) {
+					$relation->attach($airtime);
+				})
+				->where('contact_id', '=', $this->id)
+				->where('airtime_id', '=', $airtime->id)
+				->withPivot('id')
+				->orderBy('pivot_created_at', 'desc')
+				->first()
+				->pivot
+				;
 	}
 
 	public function airtimes()

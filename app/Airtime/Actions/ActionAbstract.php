@@ -12,4 +12,9 @@ abstract class ActionAbstract
 	{
 		return Airtime::where('key', $this->key())->first();
 	}
+
+	public function getAirtime(): Airtime
+	{
+		return Airtime::where('key', $this->key())->first();
+	}
 }

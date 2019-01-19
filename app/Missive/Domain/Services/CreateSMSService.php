@@ -27,12 +27,10 @@ class CreateSMSService implements ServiceInterface
 		}
 
 		$sms = tap($this->smss->create(array_only($data, ['from', 'to', 'message'])), function ($sms) {
-
 					$contact = $this->contacts->create(['mobile' => $sms->from]);
-					$contact->spendAirtime(new AvailSMS());
 				})
-		->load(['origin'])
-		;
+				->load(['origin'])
+				;
 
 		return new GenericPayload($sms);
 	}

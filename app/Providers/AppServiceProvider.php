@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\SMSObserver;
+use App\Missive\Domain\Models\SMS;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        SMS::observe(SMSObserver::class);
     }
 
     /**
