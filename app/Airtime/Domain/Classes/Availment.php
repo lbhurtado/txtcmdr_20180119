@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Airtime\Domain\Eloquent;
+namespace App\Airtime\Domain\Classes;
 
 use App\Airtime\Domain\Models\Airtime;
 use App\Airtime\Domain\Repositories\Eloquent\AirtimeRepository;

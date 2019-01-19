@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Airtime\Domain\Eloquent;
+namespace App\Airtime\Domain\Classes;
 
 class AvailSMS extends Availment
 {
