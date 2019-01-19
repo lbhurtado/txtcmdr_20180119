@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Airtime\Domain\Classes;
+namespace App\Airtime\Domain\Classes\Availments;
+
+use App\Airtime\Domain\Classes\Availment;
 
 class AvailLoad10 extends Availment
 {
