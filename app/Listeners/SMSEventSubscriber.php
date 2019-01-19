@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Airtime\Actions\SpendAirtime;
+use App\Airtime\Actions\ChargeAirtime;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Missive\Domain\Events\{SMSEvent, SMSEvents};
@@ -52,7 +52,7 @@ class SMSEventSubscriber
 
     protected function chargeContact()
     {
-        SpendAirtime::invoke($this->sms, 'charge-text');
+        ChargeAirtime::invoke($this->sms, 'charge-text');
 
         return $this;
     }

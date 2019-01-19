@@ -4,7 +4,7 @@ namespace App\Airtime\Responders;
 
 use App\Airtime\Domain\Models\Airtime;
 
-class SpendAirtimeResponder
+class ChargeAirtimeResponder
 {
 	protected $pivot;
 

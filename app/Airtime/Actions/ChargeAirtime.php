@@ -3,10 +3,10 @@
 namespace App\Airtime\Actions;
 
 use App\Missive\Domain\Models\SMS;
-use App\Airtime\Responders\SpendAirtimeResponder;
-use App\Airtime\Domain\Services\SpendAirtimeService;
+use App\Airtime\Responders\ChargeAirtimeResponder;
+use App\Airtime\Domain\Services\ChargeAirtimeService;
 
-class SpendAirtime
+class ChargeAirtime
 {
 	protected $service;
 
@@ -24,7 +24,7 @@ class SpendAirtime
 		return $action->responder->withPivot($action->airtime_contact)->respond();
 	}
 
-	public function __construct(SpendAirtimeService $service, SpendAirtimeResponder $responder)
+	public function __construct(ChargeAirtimeService $service, ChargeAirtimeResponder $responder)
 	{
 		$this->service = $service;
 		$this->responder = $responder;

@@ -5,7 +5,7 @@ namespace App\Airtime\Domain\Services;
 use App\Missive\Domain\Models\{Contact, SMS};
 use App\Missive\Domain\Repositories\Eloquent\ContactRepository;
 
-class SpendAirtimeService
+class ChargeAirtimeService
 {
 	protected $sms;
 
