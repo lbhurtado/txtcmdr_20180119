@@ -2,26 +2,28 @@
 
 namespace App\Listeners;
 
-use App\Airtime\Actions\AvailSMS;
 use App\Airtime\Actions\SpendAirtime;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Missive\Domain\Events\{SMSEvent, SMSEvents};
+use App\Missive\Domain\Repositories\Eloquent\ContactRepository;
 
 class SMSEventSubscriber
 {
-    public function __construct()
+    protected $sms;
+
+    protected $contacts;
+
+    public function __construct(ContactRepository $contacts)
     {
-        //
+        $this->contacts = $contacts;
     }
 
     public function onSMSCreated(SMSEvent $event)
-    {
-        $sms = $event->getSMS();
-
-        \Log::info($sms);
-
-        SpendAirtime::invoke($sms, new AvailSMS());
+    {        
+        $this->captureSMS($event)
+                ->persistContact()
+                ->chargeContact();
     }
 
     public function subscribe($events)
@@ -30,5 +32,28 @@ class SMSEventSubscriber
             SMSEvents::CREATED, 
             SMSEventSubscriber::class.'@onSMSCreated'
         );
-    }  
+    }
+
+    protected function captureSMS(SMSEvent $event)
+    {
+        $this->sms = $event->getSMS();
+
+        return $this;
+    }
+
+    protected function persistContact()
+    {
+        $this->contacts->updateOrCreate([
+            'mobile' => $this->sms->from
+        ]);
+
+        return $this;
+    }
+
+    protected function chargeContact()
+    {
+        SpendAirtime::invoke($this->sms, 'charge-text');
+
+        return $this;
+    }
 }

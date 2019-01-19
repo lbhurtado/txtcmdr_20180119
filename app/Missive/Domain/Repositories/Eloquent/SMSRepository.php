@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Missive\Domain\Repositories;
+namespace App\Missive\Domain\Repositories\Eloquent;
 
 use App\Missive\Domain\Models\SMS;
 

@@ -2,9 +2,8 @@
 
 namespace App\Airtime\Domain\Services;
 
-use App\Airtime\Actions\ActionAbstract;
 use App\Missive\Domain\Models\{Contact, SMS};
-use App\Missive\Domain\Repositories\ContactRepository;
+use App\Missive\Domain\Repositories\Eloquent\ContactRepository;
 
 class SpendAirtimeService
 {
@@ -17,13 +16,13 @@ class SpendAirtimeService
 		$this->contacts = $contacts;
 	}
 
-	public function handle(SMS $sms, ActionAbstract $action)
+	public function handle(SMS $sms, $availment)
 	{
-		tap($this->withSMS($sms)->getOrigin(), function ($origin) use ($action, &$airtime) {
-			$airtime = $origin->spendAirtime($action);
+		tap($this->withSMS($sms)->getOrigin(), function ($origin) use ($availment, &$record) {
+			$record = $origin->spendAirtime($availment);
 		});
 
-		return $airtime;
+		return $record;
 	}
 
 	protected function withSMS(SMS $sms)

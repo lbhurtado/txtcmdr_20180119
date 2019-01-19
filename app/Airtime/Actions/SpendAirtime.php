@@ -3,7 +3,6 @@
 namespace App\Airtime\Actions;
 
 use App\Missive\Domain\Models\SMS;
-use App\Airtime\Actions\ActionAbstract;
 use App\Airtime\Responders\SpendAirtimeResponder;
 use App\Airtime\Domain\Services\SpendAirtimeService;
 
@@ -13,13 +12,16 @@ class SpendAirtime
 
 	protected $responder;
 
-	public static function invoke(SMS $sms, ActionAbstract $action)
+	protected $airtime_contact;
+
+	public static function invoke(SMS $sms, $availment)
 	{
-		$xxx = app(static::class);
+		$action = tap(app(static::class), function ($action) use ($sms, $availment) {
+			$action->airtime_contact = $action->service->handle($sms, $availment);
+		})
+		;
 
-		$pivot = $xxx->service->handle($sms, $action);
-
-		return $xxx->responder->withPivot($pivot)->respond();
+		return $action->responder->withPivot($action->airtime_contact)->respond();
 	}
 
 	public function __construct(SpendAirtimeService $service, SpendAirtimeResponder $responder)

@@ -5,19 +5,16 @@ namespace App\Missive\Domain\Services;
 use App\Airtime\Actions\AvailSMS;
 use App\App\Domain\ServiceInterface;
 use App\Airtime\Domain\Models\Airtime;
+use App\Missive\Domain\Repositories\Eloquent\SMSRepository;
 use App\App\Domain\Payloads\{GenericPayload, ValidationPayload};
-use App\Missive\Domain\Repositories\{SMSRepository, ContactRepository};
 
 class CreateSMSService implements ServiceInterface
 {
 	protected $smss;
 
-	protected $contacts;
-
-	public function __construct(SMSRepository $smss, ContactRepository $contacts)
+	public function __construct(SMSRepository $smss)
 	{
 		$this->smss = $smss;
-		$this->contacts = $contacts;
 	}
 
 	public function handle($data = [])
@@ -26,11 +23,9 @@ class CreateSMSService implements ServiceInterface
 			return new ValidationPayload($validator->getMessageBag());
 		}
 
-		$sms = tap($this->smss->create(array_only($data, ['from', 'to', 'message'])), function ($sms) {
-					$contact = $this->contacts->create(['mobile' => $sms->from]);
-				})
-				->load(['origin'])
-				;
+		$attributes = array_only($data, ['from', 'to', 'message']);
+
+		$sms = $this->smss->create($attributes)->load(['origin']);
 
 		return new GenericPayload($sms);
 	}

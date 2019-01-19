@@ -4,15 +4,18 @@ namespace App\Airtime\Domain\Traits;
 
 use Exception;
 use App\Airtime\Domain\Models\Airtime;
-use App\Airtime\Actions\ActionAbstract;
 use App\Airtime\Domain\Formatters\CreditsFormatter;
 
 trait SpendsAirtime
 {
-	public function spendAirtime(ActionAbstract $action)
+	public function spendAirtime($availment)
 	{
-		if (! $airtime = $action->getAirtime()) {
-			throw new Exception("Airtime model for key [{$action->key()}] not found.");
+		$airtime = optional($this->getMode($availment), function ($mode) {
+			return $mode->getAirtime();
+		});
+
+		if (! $airtime) {
+			throw new Exception("Airtime model for key [{$mode->key()}] not found.");
 		}
 
 		return tap($this->airtimes(), function ($relation) use ($airtime) {
@@ -35,5 +38,10 @@ trait SpendsAirtime
 	public function charges()
 	{
 		return (new CreditsFormatter($this->airtimes()->sum('credits')))->shorthand();
+	}
+
+	protected function getMode($availment)
+	{
+		return (app(config('airtime.availments')[$availment]));
 	}
 }

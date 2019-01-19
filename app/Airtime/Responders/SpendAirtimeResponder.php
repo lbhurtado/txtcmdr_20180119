@@ -10,6 +10,7 @@ class SpendAirtimeResponder
 
 	public function respond()
 	{
+		\Log::info("SpendAirtimeResponder::respond");
 		\Log::info($this->pivot);
 
 		return $this->pivot;
