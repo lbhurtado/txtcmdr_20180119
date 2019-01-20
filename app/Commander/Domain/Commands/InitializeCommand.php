@@ -16,4 +16,13 @@ class InitializeCommand
  		$this->keyword = $keyword;
  		$this->arguments = $arguments;
     }
+
+    public function getArguments()
+    {
+    	return [
+    		'mobile' => $this->mobile,
+    		'keyword' => $this->keyword,
+    		'arguments' => $this->arguments,
+    	];
+    }
 }

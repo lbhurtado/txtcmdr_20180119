@@ -23,7 +23,9 @@ class SMSEventSubscriber
     {        
         $this->captureSMS($event)
                 ->persistContact()
-                ->chargeContact();
+                ->chargeContact()
+                ->issueCommands()
+                ;
     }
 
     public function subscribe($events)
@@ -53,6 +55,12 @@ class SMSEventSubscriber
     protected function chargeContact()
     {
         ChargeAirtime::invoke($this->sms, 'charge-text');
+
+        return $this;
+    }
+
+    protected function issueCommands()
+    {
 
         return $this;
     }

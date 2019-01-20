@@ -15,5 +15,6 @@ class InitializeHandler
     public function handle(InitializeCommand $command)
     {
         \Log::info("InitializeHandler::handle");
+        \Log::info($command->getArguments());
     }
 }
