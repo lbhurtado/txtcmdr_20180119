@@ -4,7 +4,7 @@ namespace App\Missive\Domain\Services;
 
 use App\App\Domain\ServiceInterface;
 use App\App\Domain\Payloads\{GenericPayload, ValidationPayload};
-use App\Missive\Domain\Repositories\SMSRepository;
+use App\Missive\Domain\Repositories\Eloquent\SMSRepository;
 
 class ListSMSService implements ServiceInterface
 {
